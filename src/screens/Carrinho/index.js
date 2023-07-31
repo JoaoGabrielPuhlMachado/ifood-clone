@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export default function Pedidos() {
+export default function Carrinho() {
   return (
     <View style={styles.container}>
-      <Text>Pedidos</Text>
+      <Text>Carrinho</Text>
     </View>
   );
 }

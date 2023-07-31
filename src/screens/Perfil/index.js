@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
   ScrollView,
   Text,
   TouchableOpacity,
   View,
   StyleSheet,
-} from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+} from 'react-native';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 export default function Perfil({ navigation }) {
   return (
@@ -24,7 +24,7 @@ export default function Perfil({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.option}
-          onPress={() => navigation.navigate("Pagamentos")}
+          onPress={() => navigation.navigate('Pagamentos')}
         >
           <MaterialCommunityIcons name="credit-card" size={35} color="#333" />
           <ScrollView style={styles.info}>
@@ -123,12 +123,12 @@ export default function Perfil({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   option: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
     marginTop: 5,
     paddingTop: 10,
     paddingBottom: 10,
@@ -140,21 +140,21 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   title: {
-    color: "#333",
+    color: '#333',
     fontSize: 18,
   },
   description: {
     fontSize: 16,
-    color: "#999",
+    color: '#999',
   },
   menuAdicional: {
     marginTop: 30,
   },
 
   opcoesAdicionais: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginTop: 5,
     marginBottom: 5,
     marginLeft: 0,
@@ -166,12 +166,12 @@ const styles = StyleSheet.create({
     border: 1,
   },
   wrapper: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   optionName: {
     marginLeft: 25,
-    color: "#ccc",
+    color: '#ccc',
     fontSize: 15,
   },
 });

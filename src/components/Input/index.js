@@ -6,7 +6,6 @@ export default function Input(props) {
   return (
     <View style={styles.container}>
       <MaterialIcons name="search" size={25} color={'#FF5665'} />
-
       <TextInput style={styles.textInput} placeholder={props.placeholder} />
     </View>
   );

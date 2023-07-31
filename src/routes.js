@@ -5,25 +5,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import Home from "./screens/Home";
-import Busca from "./screens/Busca";
-import Perfil from "./screens/Perfil";
-import Pedidos from "./screens/Pedidos";
-import Pagamentos from "./screens/Pagamentos";
+import Carrinho from "./screens/Carrinho";
+import Perfil from "./screens/Perfil"
 
 const BottomTab = createBottomTabNavigator();
 
-import { createStackNavigator } from "@react-navigation/stack";
-
-const PerfilStack = createStackNavigator();
-
-function PerfilRoutes() {
-  return (
-    <PerfilStack.Navigator>
-      <PerfilStack.Screen name="Perfil" component={Perfil} />
-      <PerfilStack.Screen name="Pagamentos" component={Pagamentos} />
-    </PerfilStack.Navigator>
-  );
-}
 export default function Routes() {
   return (
     <NavigationContainer>
@@ -44,28 +30,18 @@ export default function Routes() {
           }}
         />
         <BottomTab.Screen
-          name="Busca"
-          component={Busca}
+          name="Carrinho"
+          component={Carrinho}
           options={{
-            tabBarLabel: "Busca",
+            tabBarLabel: "Carrinho",
             tabBarIcon: ({ color }) => (
-              <MaterialIcons name="search" color={color} size={26} />
-            ),
-          }}
-        />
-        <BottomTab.Screen
-          name="Pedidos"
-          component={Pedidos}
-          options={{
-            tabBarLabel: "Pedidos",
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons name="assignment" color={color} size={26} />
+              <MaterialIcons name="shopping-cart" color={color} size={26} />
             ),
           }}
         />
         <BottomTab.Screen
           name="PerfilRoutes"
-          component={PerfilRoutes}
+          component={Perfil}
           options={{
             headerShown: false,
             tabBarLabel: "Perfil",
