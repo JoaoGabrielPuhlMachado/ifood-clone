@@ -15,7 +15,7 @@ export default function Routes() {
     <NavigationContainer>
       <BottomTab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: "red",
+          tabBarActiveTintColor: "blue",
           tabBarInactiveTintColor: "black",
         }}
       >
@@ -26,16 +26,6 @@ export default function Routes() {
             tabBarLabel: "Home",
             tabBarIcon: ({ color }) => (
               <MaterialIcons name="home" color={color} size={26} />
-            ),
-          }}
-        />
-        <BottomTab.Screen
-          name="Carrinho"
-          component={Carrinho}
-          options={{
-            tabBarLabel: "Carrinho",
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons name="shopping-cart" color={color} size={26} />
             ),
           }}
         />
