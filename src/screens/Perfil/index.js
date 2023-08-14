@@ -16,7 +16,9 @@ export default function Perfil({ navigation }) {
           <MaterialIcons name="person" size={35} color="#333" />
           <ScrollView style={styles.info}>
             <Text style={styles.title}>Perfil</Text>
-            <Text style={styles.description}>Informações do perfil do usuário</Text>
+            <Text style={styles.description}>
+              Informações do perfil do usuário
+            </Text>
           </ScrollView>
           <MaterialIcons name="keyboard-arrow-right" color="#999" size={20} />
         </TouchableOpacity>
@@ -26,7 +28,9 @@ export default function Perfil({ navigation }) {
           <MaterialCommunityIcons name="cart" size={35} color="#333" />
           <ScrollView style={styles.info}>
             <Text style={styles.title}>Carrinho</Text>
-            <Text style={styles.description}>Todos os produtos do usuário e suas informações</Text>
+            <Text style={styles.description}>
+              Todos os produtos do usuário e suas informações
+            </Text>
           </ScrollView>
           <MaterialIcons name="keyboard-arrow-right" color="#999" size={20} />
         </TouchableOpacity>

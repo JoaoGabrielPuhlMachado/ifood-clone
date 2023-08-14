@@ -20,11 +20,11 @@ export default function CardProdutos() {
   }
   return (
     <View style={styles.container}>
-      <Text>Produtos</Text>
+      <Text style={styles.titulo}>Produtos</Text>
       <View style={styles.content}>
         {produtos.map((produto) => (
           <View key={produto.id} style={styles.card}>
-            {/* <Image style={styles.imagem} source={{ uri: produto.capa }} /> */}
+            <Image style={styles.imagem} source={{ uri: produto.capa?.file }} />
             <Text style={styles.texto}>{produto.nome}</Text>
             <Text style={styles.preco}>
               R${produto.preco.replace(".", ",")}
@@ -61,6 +61,10 @@ const styles = StyleSheet.create({
     marginRight: "1.5%",
     marginTop: 12,
     borderRadius: 3,
+  },
+  titulo: {
+    fontSize: 30,
+    fontWeight: "bold",
   },
   texto: {
     fontSize: 13,

@@ -2,37 +2,36 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View, Image } from "react-native";
 import { useEffect, useState } from "react";
 
-import CategoriasApi from "../api/categorias";
-const categoriasApi = new CategoriasApi();
+import MarcasApi from "../api/marcas";
+const marcasApi = new MarcasApi();
 
-export default function CardCategorias() {
-  const [categorias, setCategorias] = useState([]);
+export default function CardMarcas() {
+  const [marcas, setMarcas] = useState([]);
   useEffect(() => {
     async function getAll() {
-      const data = await categoriasApi.buscarTodasAsCategorias();
-      setCategorias(data);
+      const data = await marcasApi.buscarTodasAsMarcas();
+      setMarcas(data);
     }
     getAll();
   }, []);
-  async function updateCategorias() {
-    const data = await categoriasApi.buscarTodasAsCategorias();
-    setCategorias(data);
+  async function updateMarcas() {
+    const data = await marcasApi.buscarTodasAsMarcas();
+    setMarcas(data);
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Categorias</Text>
+      <Text style={styles.titulo}>Marcas</Text>
       <View style={styles.content}>
-        {categorias.map((categoria) => (
-          <View key={categoria.id} style={styles.card}>
+        {marcas.map((marca) => (
+          <View key={marca.id} style={styles.card}>
             <Image
               style={styles.imagem}
-              source={{ uri: categoria.capa_categoria?.file }}
+              source={{ uri: marca.logo_marca?.file }}
             />
-            <Text style={styles.texto}>{categoria.descricao}</Text>
           </View>
         ))}
       </View>
-      <Button title="Atualizar" onPress={() => updateCategorias()} />
+      <Button title="Atualizar" onPress={() => updateMarcas()} />
       <StatusBar style="auto" />
     </View>
   );
@@ -48,31 +47,23 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "100%",
-    height: "85%",
-    borderRadius: 3,
-  },
-  card: {
-    padding: 8,
-    backgroundColor: "white",
-    width: "47%",
-    height: 200,
-    borderRadius: 0,
-    marginLeft: "1.5%",
-    marginRight: "1.5%",
-    marginTop: 12,
+    height: "100%",
     borderRadius: 3,
   },
   titulo: {
     fontSize: 30,
     fontWeight: "bold",
   },
-  texto: {
-    textAlign: "center",
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "white",
-    textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowRadius: 20,
+  card: {
+    padding: 8,
+    backgroundColor: "white",
+    width: "47%",
+    height: 110,
+    borderRadius: 0,
+    marginLeft: "1.5%",
+    marginRight: "1.5%",
+    marginTop: 12,
+    borderRadius: 3,
   },
   content: {
     flex: 1,
