@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import MarcasApi from "../../api/marcas";
-const marcasApi = new MarcasApi();
-import ProdutosApi from "../../api/produtos";
-const produtosApi = new ProdutosApi();
-import CategoriasApi from "../../api/categorias";
-const categoriasApi = new CategoriasApi();
+// import MarcasApi from "../../api/marcas";
+// const marcasApi = new MarcasApi();
+// import ProdutosApi from "../../api/produtos";
+// const produtosApi = new ProdutosApi();
+// import CategoriasApi from "../../api/categorias";
+// const categoriasApi = new CategoriasApi();
 
 export default function Atualizar() {
   const [categorias, setCategorias] = useState([]);
