@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useEffect, useState } from "react";
 
 import ProdutosApi from "../api/produtos";
@@ -14,10 +14,6 @@ export default function CardProdutos() {
     }
     getAll();
   }, []);
-  async function updateProdutos() {
-    const data = await produtosApi.buscarTodosOsProdutos();
-    setProdutos(data);
-  }
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Produtos</Text>
@@ -32,7 +28,6 @@ export default function CardProdutos() {
           </View>
         ))}
       </View>
-      <Button title="Atualizar" onPress={() => updateProdutos()} />
       <StatusBar style="auto" />
     </View>
   );
@@ -48,14 +43,14 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "100%",
-    height: "50%",
+    height: "80%",
     borderRadius: 3,
   },
   card: {
     padding: 8,
     backgroundColor: "white",
-    width: "46.5%",
-    height: 200,
+    width: "47%",
+    height: 240,
     borderRadius: 0,
     marginLeft: "1.5%",
     marginRight: "1.5%",

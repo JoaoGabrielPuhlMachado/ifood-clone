@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useEffect, useState } from "react";
 
 import MarcasApi from "../api/marcas";
@@ -14,10 +14,6 @@ export default function CardMarcas() {
     }
     getAll();
   }, []);
-  async function updateMarcas() {
-    const data = await marcasApi.buscarTodasAsMarcas();
-    setMarcas(data);
-  }
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Marcas</Text>
@@ -31,7 +27,6 @@ export default function CardMarcas() {
           </View>
         ))}
       </View>
-      <Button title="Atualizar" onPress={() => updateMarcas()} />
       <StatusBar style="auto" />
     </View>
   );
@@ -57,8 +52,8 @@ const styles = StyleSheet.create({
   card: {
     padding: 8,
     backgroundColor: "white",
-    width: "47%",
-    height: 110,
+    width: "30%",
+    height: 75,
     borderRadius: 0,
     marginLeft: "1.5%",
     marginRight: "1.5%",

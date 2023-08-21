@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import Categorias from "../../components/Home/Categorias";
 import Produtos from "../../components/Home/Produtos";
 import Marcas from "../../components/Home/Marcas";
+import Atualizar from "../../components/Home/Atualizar";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Categorias />
       <Marcas />
       <Produtos />
+      <Atualizar />
     </ScrollView>
   );
 }

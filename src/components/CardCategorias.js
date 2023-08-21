@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { useEffect, useState } from "react";
 
 import CategoriasApi from "../api/categorias";
@@ -14,10 +14,6 @@ export default function CardCategorias() {
     }
     getAll();
   }, []);
-  async function updateCategorias() {
-    const data = await categoriasApi.buscarTodasAsCategorias();
-    setCategorias(data);
-  }
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>
@@ -32,7 +28,6 @@ export default function CardCategorias() {
           </View>
         ))}
       </View>
-      <Button title="Atualizar" onPress={() => updateCategorias()} />
       <StatusBar style="auto" />
     </View>
   );
@@ -54,8 +49,8 @@ const styles = StyleSheet.create({
   card: {
     padding: 8,
     backgroundColor: "white",
-    width: "47%",
-    height: 200,
+    width: "23.5%",
+    height: 100,
     borderRadius: 0,
     marginLeft: "1.5%",
     marginRight: "1.5%",
@@ -68,11 +63,9 @@ const styles = StyleSheet.create({
   },
   texto: {
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 14,
     fontWeight: "bold",
-    color: "white",
-    textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowRadius: 20,
+    color: "black",
   },
   content: {
     flex: 1,
