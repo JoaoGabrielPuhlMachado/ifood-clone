@@ -2,36 +2,52 @@ import { useEffect, useState } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-// import MarcasApi from "../../api/marcas";
-// const marcasApi = new MarcasApi();
-// import ProdutosApi from "../../api/produtos";
-// const produtosApi = new ProdutosApi();
-// import CategoriasApi from "../../api/categorias";
-// const categoriasApi = new CategoriasApi();
+import { useSetRecoilState } from "recoil";
+import { atualizarState } from "../../recoil/atoms/auth";
+
+import MarcasApi from "../../api/marcas";
+const marcasApi = new MarcasApi();
+import ProdutosApi from "../../api/produtos";
+const produtosApi = new ProdutosApi();
+import CategoriasApi from "../../api/categorias";
+const categoriasApi = new CategoriasApi();
 
 export default function Atualizar() {
+  const setAtualizar = useSetRecoilState(atualizarState);
+
   const [categorias, setCategorias] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [produtos, setProdutos] = useState([]);
-  useEffect(() => {
-    async function getAll() {
-      const categoriasData = await categoriasApi.buscarTodasAsCategorias();
-      setCategorias(categoriasData);
-      const marcasData = await marcasApi.buscarTodasAsMarcas();
-      setMarcas(marcasData);
-      const produtosData = await produtosApi.buscarTodosOsProdutos();
-      setProdutos(produtosData);
-    }
-    getAll();
-  }, []);
-  async function updateAll() {
+
+  const update = async () => {
     const categoriasData = await categoriasApi.buscarTodasAsCategorias();
-    setCategorias(categoriasData);
     const marcasData = await marcasApi.buscarTodasAsMarcas();
-    setMarcas(marcasData);
     const produtosData = await produtosApi.buscarTodosOsProdutos();
-    setProdutos(produtosData);
-  }
+    setAtualizar({
+      categorias: categoriasData,
+      marcas: marcasData,
+      produtos: produtosData,
+    });
+  };
+  // useEffect(() => {
+  //   async function getAll() {
+  //     const categoriasData = await categoriasApi.buscarTodasAsCategorias();
+  //     setCategorias(categoriasData);
+  //     const marcasData = await marcasApi.buscarTodasAsMarcas();
+  //     setMarcas(marcasData);
+  //     const produtosData = await produtosApi.buscarTodosOsProdutos();
+  //     setProdutos(produtosData);
+  //   }
+  //   getAll();
+  // }, []);
+  // async function updateAll() {
+  //   const categoriasData = await categoriasApi.buscarTodasAsCategorias();
+  //   setCategorias(categoriasData);
+  //   const marcasData = await marcasApi.buscarTodasAsMarcas();
+  //   setMarcas(marcasData);
+  //   const produtosData = await produtosApi.buscarTodosOsProdutos();
+  //   setProdutos(produtosData);
+  // }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.botao} onPress={() => updateAll()}>
