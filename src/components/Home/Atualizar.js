@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -15,9 +15,9 @@ const categoriasApi = new CategoriasApi();
 export default function Atualizar() {
   const setAtualizar = useSetRecoilState(atualizarState);
 
-  const [categorias, setCategorias] = useState([]);
-  const [marcas, setMarcas] = useState([]);
-  const [produtos, setProdutos] = useState([]);
+  // const [categorias, setCategorias] = useState([]);
+  // const [marcas, setMarcas] = useState([]);
+  // const [produtos, setProdutos] = useState([]);
 
   const update = async () => {
     const categoriasData = await categoriasApi.buscarTodasAsCategorias();
@@ -29,28 +29,9 @@ export default function Atualizar() {
       produtos: produtosData,
     });
   };
-  // useEffect(() => {
-  //   async function getAll() {
-  //     const categoriasData = await categoriasApi.buscarTodasAsCategorias();
-  //     setCategorias(categoriasData);
-  //     const marcasData = await marcasApi.buscarTodasAsMarcas();
-  //     setMarcas(marcasData);
-  //     const produtosData = await produtosApi.buscarTodosOsProdutos();
-  //     setProdutos(produtosData);
-  //   }
-  //   getAll();
-  // }, []);
-  // async function updateAll() {
-  //   const categoriasData = await categoriasApi.buscarTodasAsCategorias();
-  //   setCategorias(categoriasData);
-  //   const marcasData = await marcasApi.buscarTodasAsMarcas();
-  //   setMarcas(marcasData);
-  //   const produtosData = await produtosApi.buscarTodosOsProdutos();
-  //   setProdutos(produtosData);
-  // }
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.botao} onPress={() => updateAll()}>
+      <TouchableOpacity style={styles.botao} onPress={() => update()}>
         <MaterialIcons name="refresh" size={26} />
       </TouchableOpacity>
     </View>
