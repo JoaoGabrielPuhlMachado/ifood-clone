@@ -6,7 +6,6 @@ import { dadosState } from "../../recoil/atoms/dados.js";
 import Categorias from "../../components/Home/Categorias";
 import Produtos from "../../components/Home/Produtos";
 import Marcas from "../../components/Home/Marcas";
-import Atualizar from "../../components/Home/Atualizar";
 
 import MarcasApi from "../../api/marcas";
 const marcasApi = new MarcasApi();
@@ -48,7 +47,6 @@ export default function Home() {
       <Categorias />
       <Marcas />
       <Produtos />
-      <Atualizar />
     </ScrollView>
   );
 }
