@@ -1,19 +1,10 @@
-import { StatusBar } from "expo-status-bar";
+import { dadosState } from "../recoil/atoms/dados.js";
+import { useRecoilValue } from "recoil";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useEffect, useState } from "react";
-
-import CategoriasApi from "../api/categorias";
-const categoriasApi = new CategoriasApi();
+import { StatusBar } from "expo-status-bar";
 
 export default function CardCategorias() {
-  const [categorias, setCategorias] = useState([]);
-  useEffect(() => {
-    async function getAll() {
-      const data = await categoriasApi.buscarTodasAsCategorias();
-      setCategorias(data);
-    }
-    getAll();
-  }, []);
+  const { categorias } = useRecoilValue(dadosState);
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>

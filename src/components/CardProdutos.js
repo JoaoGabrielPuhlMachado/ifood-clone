@@ -1,19 +1,10 @@
+import { dadosState } from "../recoil/atoms/dados";
+import { useRecoilValue } from "recoil";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useEffect, useState } from "react";
-
-import ProdutosApi from "../api/produtos";
-const produtosApi = new ProdutosApi();
 
 export default function CardProdutos() {
-  const [produtos, setProdutos] = useState([]);
-  useEffect(() => {
-    async function getAll() {
-      const data = await produtosApi.buscarTodosOsProdutos();
-      setProdutos(data);
-    }
-    getAll();
-  }, []);
+  const { produtos } = useRecoilValue(dadosState);
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Produtos</Text>

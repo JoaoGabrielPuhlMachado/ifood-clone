@@ -1,23 +1,14 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { useSetRecoilState } from "recoil";
-import { atualizarState } from "../../recoil/atoms/auth";
+import { dadosState } from "../../recoil/atoms/dados";
 
-import MarcasApi from "../../api/marcas";
-const marcasApi = new MarcasApi();
-import ProdutosApi from "../../api/produtos";
-const produtosApi = new ProdutosApi();
-import CategoriasApi from "../../api/categorias";
-const categoriasApi = new CategoriasApi();
+
 
 export default function Atualizar() {
-  const setAtualizar = useSetRecoilState(atualizarState);
-
-  // const [categorias, setCategorias] = useState([]);
-  // const [marcas, setMarcas] = useState([]);
-  // const [produtos, setProdutos] = useState([]);
+  const setAtualizar = useSetRecoilState(dadosState);
 
   const update = async () => {
     const categoriasData = await categoriasApi.buscarTodasAsCategorias();
@@ -29,6 +20,11 @@ export default function Atualizar() {
       produtos: produtosData,
     });
   };
+
+  useEffect(() => {
+    update();
+  }, []);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.botao} onPress={() => update()}>

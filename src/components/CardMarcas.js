@@ -1,19 +1,11 @@
+import { dadosState } from "../recoil/atoms/dados";
+import { useRecoilValue } from "recoil";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useEffect, useState } from "react";
-
-import MarcasApi from "../api/marcas";
-const marcasApi = new MarcasApi();
 
 export default function CardMarcas() {
-  const [marcas, setMarcas] = useState([]);
-  useEffect(() => {
-    async function getAll() {
-      const data = await marcasApi.buscarTodasAsMarcas();
-      setMarcas(data);
-    }
-    getAll();
-  }, []);
+  const { marcas } = useRecoilValue(dadosState);
+
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Marcas</Text>
