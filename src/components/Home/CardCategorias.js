@@ -1,21 +1,21 @@
-import { dadosState } from "../recoil/atoms/dados";
+import { dadosState } from "../../recoil/atoms/dados.js";
 import { useRecoilValue } from "recoil";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-export default function CardMarcas() {
-  const { marcas } = useRecoilValue(dadosState);
-
+export default function CardCategorias() {
+  const { categorias } = useRecoilValue(dadosState);
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Marcas</Text>
+      <Text style={styles.titulo}>Categorias</Text>
       <View style={styles.content}>
-        {marcas.map((marca) => (
-          <View key={marca.id} style={styles.card}>
+        {categorias.map((categoria) => (
+          <View key={categoria.id} style={styles.card}>
             <Image
               style={styles.imagem}
-              source={{ uri: marca.logo_marca?.file }}
+              source={{ uri: categoria.capa_categoria?.file }}
             />
+            <Text style={styles.texto}>{categoria.descricao}</Text>
           </View>
         ))}
       </View>
@@ -34,23 +34,29 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "100%",
-    height: "100%",
+    height: "85%",
+    borderRadius: 3,
+  },
+  card: {
+    padding: 8,
+    backgroundColor: "white",
+    width: "23.5%",
+    height: 100,
+    borderRadius: 0,
+    marginLeft: "1.5%",
+    marginRight: "1.5%",
+    marginTop: 12,
     borderRadius: 3,
   },
   titulo: {
     fontSize: 30,
     fontWeight: "bold",
   },
-  card: {
-    padding: 8,
-    backgroundColor: "white",
-    width: "30%",
-    height: 75,
-    borderRadius: 0,
-    marginLeft: "1.5%",
-    marginRight: "1.5%",
-    marginTop: 12,
-    borderRadius: 3,
+  texto: {
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "black",
   },
   content: {
     flex: 1,

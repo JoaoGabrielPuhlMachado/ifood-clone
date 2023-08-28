@@ -1,21 +1,21 @@
-import { dadosState } from "../recoil/atoms/dados.js";
+import { dadosState } from "../../recoil/atoms/dados.js";
 import { useRecoilValue } from "recoil";
-import { StyleSheet, Text, View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Image } from "react-native";
 
-export default function CardCategorias() {
-  const { categorias } = useRecoilValue(dadosState);
+export default function CardProdutos() {
+  const { produtos } = useRecoilValue(dadosState);
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Categorias</Text>
+      <Text style={styles.titulo}>Produtos</Text>
       <View style={styles.content}>
-        {categorias.map((categoria) => (
-          <View key={categoria.id} style={styles.card}>
-            <Image
-              style={styles.imagem}
-              source={{ uri: categoria.capa_categoria?.file }}
-            />
-            <Text style={styles.texto}>{categoria.descricao}</Text>
+        {produtos.map((produto) => (
+          <View key={produto.id} style={styles.card}>
+            <Image style={styles.imagem} source={{ uri: produto.capa?.file }} />
+            <Text style={styles.texto}>{produto.nome}</Text>
+            <Text style={styles.preco}>
+              R${produto.preco.replace(".", ",")}
+            </Text>
           </View>
         ))}
       </View>
@@ -34,14 +34,14 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "100%",
-    height: "85%",
+    height: "80%",
     borderRadius: 3,
   },
   card: {
     padding: 8,
     backgroundColor: "white",
-    width: "23.5%",
-    height: 100,
+    width: "47%",
+    height: 240,
     borderRadius: 0,
     marginLeft: "1.5%",
     marginRight: "1.5%",
@@ -53,10 +53,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   texto: {
-    textAlign: "center",
-    fontSize: 14,
+    fontSize: 13,
+    color: "#000",
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 3,
+  },
+  preco: {
     fontWeight: "bold",
-    color: "black",
+    fontSize: 13,
+    color: "#000",
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 3,
   },
   content: {
     flex: 1,

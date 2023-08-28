@@ -7,8 +7,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useRecoilValue } from "recoil";
 
 import Home from "./screens/Home";
-import Login from "./src/screens/Login/index.js";
 import Perfil from "./screens/Perfil";
+import Login from "./screens/Login/index.js";
 
 const BottomTab = createBottomTabNavigator();
 const LoginStack = createStackNavigator();
@@ -41,12 +41,12 @@ export default function Routes() {
         }}
       >
         <BottomTab.Screen
-          name="Home"
-          component={Home}
+          name="Login"
+          component={LoginConfirm}
           options={{
-            tabBarLabel: "Home",
+            tabBarLabel: "Login",
             tabBarIcon: ({ color }) => (
-              <MaterialIcons name="home" color={color} size={26} />
+              <MaterialIcons name="login" color={color} size={26} />
             ),
           }}
         />

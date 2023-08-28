@@ -1,21 +1,21 @@
-import { dadosState } from "../recoil/atoms/dados";
+import { dadosState } from "../../recoil/atoms/dados.js";
 import { useRecoilValue } from "recoil";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-export default function CardProdutos() {
-  const { produtos } = useRecoilValue(dadosState);
+export default function CardMarcas() {
+  const { marcas } = useRecoilValue(dadosState);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Produtos</Text>
+      <Text style={styles.titulo}>Marcas</Text>
       <View style={styles.content}>
-        {produtos.map((produto) => (
-          <View key={produto.id} style={styles.card}>
-            <Image style={styles.imagem} source={{ uri: produto.capa?.file }} />
-            <Text style={styles.texto}>{produto.nome}</Text>
-            <Text style={styles.preco}>
-              R${produto.preco.replace(".", ",")}
-            </Text>
+        {marcas.map((marca) => (
+          <View key={marca.id} style={styles.card}>
+            <Image
+              style={styles.imagem}
+              source={{ uri: marca.logo_marca?.file }}
+            />
           </View>
         ))}
       </View>
@@ -34,38 +34,23 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     width: "100%",
-    height: "80%",
-    borderRadius: 3,
-  },
-  card: {
-    padding: 8,
-    backgroundColor: "white",
-    width: "47%",
-    height: 240,
-    borderRadius: 0,
-    marginLeft: "1.5%",
-    marginRight: "1.5%",
-    marginTop: 12,
+    height: "100%",
     borderRadius: 3,
   },
   titulo: {
     fontSize: 30,
     fontWeight: "bold",
   },
-  texto: {
-    fontSize: 13,
-    color: "#000",
-    marginLeft: 3,
-    marginRight: 3,
-    marginTop: 3,
-  },
-  preco: {
-    fontWeight: "bold",
-    fontSize: 13,
-    color: "#000",
-    marginLeft: 3,
-    marginRight: 3,
-    marginTop: 3,
+  card: {
+    padding: 8,
+    backgroundColor: "white",
+    width: "30%",
+    height: 75,
+    borderRadius: 0,
+    marginLeft: "1.5%",
+    marginRight: "1.5%",
+    marginTop: 12,
+    borderRadius: 3,
   },
   content: {
     flex: 1,
