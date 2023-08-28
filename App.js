@@ -1,13 +1,13 @@
 import { RecoilRoot } from "recoil";
 import { StatusBar } from "expo-status-bar";
 
-import Routes from "./src/routes";
+import Main from "./src/Main";
 
 export default function App() {
   return (
     <RecoilRoot>
+      <Main />
       <StatusBar style="auto" />
-      <Routes />
     </RecoilRoot>
   );
 }

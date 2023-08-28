@@ -5,6 +5,10 @@ import { StyleSheet, Text, View, Image } from "react-native";
 
 export default function CardProdutos() {
   const { produtos } = useRecoilValue(dadosState);
+
+  if (!produtos || produtos.length === 0) {
+    return <Text>Loading...</Text>;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Produtos</Text>

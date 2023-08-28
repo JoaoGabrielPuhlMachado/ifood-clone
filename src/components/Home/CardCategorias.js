@@ -5,6 +5,10 @@ import { StatusBar } from "expo-status-bar";
 
 export default function CardCategorias() {
   const { categorias } = useRecoilValue(dadosState);
+
+  if (!categorias || categorias.length === 0) {
+    return <Text>Loading...</Text>;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>

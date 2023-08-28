@@ -7,7 +7,7 @@ export const dadosState = atom({
     marcas: [],
     produtos: [],
     loggedIn: false,
-    access_token: null,
-    refresh_token: null,
+    access_token: "",
+    refresh_token: "",
   },
 });

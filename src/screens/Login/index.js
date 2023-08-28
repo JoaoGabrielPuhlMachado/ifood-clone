@@ -10,11 +10,14 @@ export default function Login() {
   const setUser = useSetRecoilState(dadosState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const login = async () => {
     try {
-      const data = await axios.post("http://191.52.55.168:19003/api/token/");
+      const data = await axios.post("http://191.52.55.226:19003/api/token/", {
+        email: email,
+        password: password,
+      });
       setUser({
         loggedIn: true,
         access_token: data.access_token,
@@ -27,7 +30,6 @@ export default function Login() {
       await SecureStore.deleteItemAsync("access_token");
     }
   };
-
   return (
     <View style={styles.container}>
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />

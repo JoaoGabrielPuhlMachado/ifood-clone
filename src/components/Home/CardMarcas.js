@@ -6,6 +6,9 @@ import { StyleSheet, Text, View, Image } from "react-native";
 export default function CardMarcas() {
   const { marcas } = useRecoilValue(dadosState);
 
+  if (!marcas || marcas.length === 0) {
+    return <Text>Loading...</Text>;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Marcas</Text>

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ScrollView, StyleSheet, RefreshControl } from "react-native";
 import { useSetRecoilState } from "recoil";
 import { dadosState } from "../../recoil/atoms/dados.js";
+import { useState } from "react";
 
 import Categorias from "../../components/Home/Categorias";
 import Produtos from "../../components/Home/Produtos";
@@ -15,7 +16,7 @@ import CategoriasApi from "../../api/categorias";
 const categoriasApi = new CategoriasApi();
 
 export default function Home() {
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const setAtualizar = useSetRecoilState(dadosState);
 
   const update = async () => {
@@ -28,7 +29,7 @@ export default function Home() {
       produtos: produtosData,
     });
   };
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
