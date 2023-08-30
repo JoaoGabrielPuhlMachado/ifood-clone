@@ -2,7 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
-import { StyleSheet, Button, Text, TextInput, View } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 import { authState } from "../../recoil/atoms/auth.js";
 
@@ -35,14 +41,26 @@ export default function Login() {
   };
   return (
     <View style={styles.container}>
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Sign in" onPress={() => login()} />
+      <TouchableOpacity
+        style={styles.login}
+        title="Sign in"
+        onPress={() => login()}
+      >
+        <Text style={styles.logintext}>Login</Text>
+      </TouchableOpacity>
       <Text>{errorMsg}</Text>
     </View>
   );
@@ -54,5 +72,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  login: {
+    backgroundColor: "#f1ebf7",
+    width: 75,
+    padding: 10,
+    borderRadius: 20,
+  },
+  logintext: {
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  input: {
+    width: 200,
+    height: 40,
+    border: 1,
+    borderColor: "#111111",
   },
 });
