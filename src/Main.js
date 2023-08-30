@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useRecoilValue } from "recoil";
-import { dadosState } from "../src/recoil/atoms/dados.js";
+import { authState } from "./recoil/atoms/auth.js";
 import { NavigationContainer } from "@react-navigation/native";
 import Routes from "./routes.js";
 import Login from "./screens/Login/index.js";
@@ -9,7 +9,7 @@ import Login from "./screens/Login/index.js";
 const Stack = createStackNavigator();
 
 export default function Main() {
-  const currentAuthState = useRecoilValue(dadosState);
+  const currentAuthState = useRecoilValue(authState);
 
   return (
     <NavigationContainer>

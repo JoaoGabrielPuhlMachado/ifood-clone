@@ -7,7 +7,7 @@ export default function CardCategorias() {
   const { categorias } = useRecoilValue(dadosState);
 
   if (!categorias || categorias.length === 0) {
-    return <Text>Loading...</Text>;
+    return <Text style={styles.loading}>Carregando categorias...</Text>;
   }
   return (
     <View style={styles.container}>
@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  loading: {
+    fontSize: 25,
+    textAlign: "center",
+    marginBottom: "29%",
   },
   imagem: {
     marginLeft: "auto",

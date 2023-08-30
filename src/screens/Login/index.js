@@ -4,30 +4,33 @@ import * as SecureStore from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
 import { StyleSheet, Button, Text, TextInput, View } from "react-native";
 
-import { dadosState } from "../../recoil/atoms/dados.js";
+import { authState } from "../../recoil/atoms/auth.js";
 
 export default function Login() {
-  const setUser = useSetRecoilState(dadosState);
+  const setUser = useSetRecoilState(authState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   const login = async () => {
     try {
-      const data = await axios.post("http://191.52.55.226:19003/api/token/", {
-        email: email,
-        password: password,
-      });
+      const { data } = await axios.post(
+        "http://191.52.55.226:19003/api/token/",
+        {
+          email: email,
+          password: password,
+        }
+      );
       setUser({
         loggedIn: true,
-        access_token: data.access_token,
-        refresh_token: data.refresh_token,
+        access: data.access,
+        refresh: data.refresh,
       });
-      await SecureStore.setItemAsync("access_token", data.access_token);
+      await SecureStore.setItemAsync("access", data.access);
     } catch (error) {
-      setUser({ loggedIn: false, access_token: null, refresh_token: null });
+      setUser({ loggedIn: false, access: null, refresh: null });
       setErrorMsg("Usuário ou senha inválidos!");
-      await SecureStore.deleteItemAsync("access_token");
+      await SecureStore.deleteItemAsync("access");
     }
   };
   return (

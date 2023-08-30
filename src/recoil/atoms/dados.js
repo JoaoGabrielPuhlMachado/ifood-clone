@@ -6,8 +6,5 @@ export const dadosState = atom({
     categorias: [],
     marcas: [],
     produtos: [],
-    loggedIn: false,
-    access_token: "",
-    refresh_token: "",
   },
 });

@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
-import { View } from "react-native"; // Importe o componente View
 
 import Home from "./screens/Home";
 import Perfil from "./screens/Perfil";

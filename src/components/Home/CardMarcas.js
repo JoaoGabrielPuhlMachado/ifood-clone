@@ -7,7 +7,7 @@ export default function CardMarcas() {
   const { marcas } = useRecoilValue(dadosState);
 
   if (!marcas || marcas.length === 0) {
-    return <Text>Loading...</Text>;
+    return <Text style={styles.loading}>Carregando marcas...</Text>;
   }
   return (
     <View style={styles.container}>
@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  loading: {
+    fontSize: 25,
+    textAlign: "center",
+    marginTop: "29%",
+    marginBottom: "29%",
   },
   imagem: {
     marginLeft: "auto",

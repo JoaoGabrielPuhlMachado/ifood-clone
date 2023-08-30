@@ -1,14 +1,19 @@
 import React from "react";
-import {
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from "react-native";
+import { ScrollView, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import * as SecureStore from "expo-secure-store";
 
-export default function Perfil({ navigation }) {
+import { useSetRecoilState } from "recoil";
+import { authState } from "../../recoil/atoms/auth.js";
+
+export default function Perfil() {
+  const setUser = useSetRecoilState(authState);
+  const logOut = async () => {
+    setUser({
+      loggedIn: true,
+    });
+    await SecureStore.deleteItemAsync("access");
+  };
   return (
     <ScrollView style={styles.container}>
       <ScrollView>
@@ -36,7 +41,12 @@ export default function Perfil({ navigation }) {
         </TouchableOpacity>
       </ScrollView>
       <ScrollView>
-        <TouchableOpacity style={styles.option} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => {
+            logOut();
+          }}
+        >
           <MaterialCommunityIcons name="logout" size={35} color="#333" />
           <ScrollView style={styles.info}>
             <Text style={styles.title}>Sair</Text>
