@@ -10,7 +10,7 @@ export default function Perfil() {
   const setUser = useSetRecoilState(authState);
   const logOut = async () => {
     setUser({
-      loggedIn: true,
+      loggedIn: false,
     });
     await SecureStore.deleteItemAsync("access");
   };
