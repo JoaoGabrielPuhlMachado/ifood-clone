@@ -20,7 +20,7 @@ export default function Perfil() {
         <TouchableOpacity style={styles.option} onPress={() => {}}>
           <MaterialIcons name="person" size={35} color="#333" />
           <ScrollView style={styles.info}>
-            <Text style={styles.title}>Perfil</Text>
+            <Text style={styles.title}>Usuário</Text>
             <Text style={styles.description}>
               Informações do perfil do usuário
             </Text>

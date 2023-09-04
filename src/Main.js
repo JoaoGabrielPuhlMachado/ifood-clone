@@ -5,6 +5,7 @@ import { authState } from "./recoil/atoms/auth.js";
 import { NavigationContainer } from "@react-navigation/native";
 import Routes from "./routes.js";
 import Login from "./screens/Login/index.js";
+import Registro from "./screens/Registro/index.js";
 
 const Stack = createStackNavigator();
 
@@ -21,11 +22,18 @@ export default function Main() {
             options={{ headerShown: false }}
           />
         ) : (
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Registro"
+              component={Registro}
+              options={{ headerShown: false }}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

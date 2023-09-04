@@ -1,8 +1,9 @@
 import { useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
-import api from "@/../../src/services/api.js";
 import { SocialIcon } from "react-native-elements";
+import UsuariosApi from "/home/joao.machado.63/Documentos/ligiaroupas-react-native/src/api/usuarios.js";
+const usuariosApi = new UsuariosApi();
 import {
   StyleSheet,
   TouchableOpacity,
@@ -14,17 +15,29 @@ import {
 
 import { authState } from "../../recoil/atoms/auth.js";
 
-export default function Login({ navigation }) {
+export default function Registro({ navigation }) {
   const setUser = useSetRecoilState(authState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [first_name, setFirst_Name] = useState("");
+  const [last_name, setLast_Name] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [data_nascimento, setData_Nascimento] = useState("");
+  const [foto, setFoto] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const login = async () => {
+  const registro = async () => {
     try {
-      const { data } = await api.post("token/", {
+      const { data } = await usuariosApi.adicionarUsuario({
         email: email,
         password: password,
+        first_name: first_name,
+        last_name: last_name,
+        telefone: telefone,
+        cpf: cpf,
+        data_nascimento: data_nascimento,
+        foto: foto,
       });
       setUser({
         loggedIn: true,
@@ -34,7 +47,7 @@ export default function Login({ navigation }) {
       await SecureStore.setItemAsync("access", data.access);
     } catch (error) {
       setUser({ loggedIn: false, access: null, refresh: null });
-      setErrorMsg("Usuário ou senha inválidos!");
+      setErrorMsg("Informe todos os campos!");
       await SecureStore.deleteItemAsync("access");
     }
   };
@@ -43,10 +56,50 @@ export default function Login({ navigation }) {
       <Text style={styles.cabecalho}>{`Bem-Vindo à\n Lígia Roupas`}</Text>
       <TextInput
         style={styles.input}
+        placeholder="Primeiro Nome"
+        placeholderTextColor="rgba(0,0,0,0.5)"
+        value={first_name}
+        onChangeText={setFirst_Name}
+        autoCapitalize={"none"}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Último Nome"
+        placeholderTextColor="rgba(0,0,0,0.5)"
+        value={last_name}
+        onChangeText={setLast_Name}
+        autoCapitalize={"none"}
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Email"
         placeholderTextColor="rgba(0,0,0,0.5)"
         value={email}
         onChangeText={setEmail}
+        autoCapitalize={"none"}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="rgba(0,0,0,0.5)"
+        value={telefone}
+        onChangeText={setTelefone}
+        autoCapitalize={"none"}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="CPF"
+        placeholderTextColor="rgba(0,0,0,0.5)"
+        value={cpf}
+        onChangeText={setCpf}
+        autoCapitalize={"none"}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="rgba(0,0,0,0.5)"
+        value={data_nascimento}
+        onChangeText={setData_Nascimento}
         autoCapitalize={"none"}
       />
       <TextInput
@@ -59,8 +112,8 @@ export default function Login({ navigation }) {
         autoCapitalize={"none"}
       />
       <Text>{errorMsg}</Text>
-      <TouchableOpacity style={styles.login} onPress={() => login()}>
-        <Text style={styles.logintext}>Login</Text>
+      <TouchableOpacity style={styles.registro} onPress={() => registro()}>
+        <Text style={styles.registrotext}>Registrar</Text>
       </TouchableOpacity>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View
@@ -72,11 +125,11 @@ export default function Login({ navigation }) {
           }}
         />
         <TouchableOpacity
-          onPress={() => navigation.navigate("Registro")}
-          style={styles.registrowrap}
+          onPress={() => navigation.navigate("Login")}
+          style={styles.loginwrap}
         >
-          <Text style={styles.semconta}>Não tem conta?</Text>
-          <Text style={styles.registrotext}>Registre-se!</Text>
+          <Text style={styles.semconta}>Possui conta?</Text>
+          <Text style={styles.logintext}> Faça login!</Text>
         </TouchableOpacity>
         <View
           style={{
@@ -85,53 +138,6 @@ export default function Login({ navigation }) {
             marginRight: 20,
             backgroundColor: "black",
           }}
-        />
-      </View>
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginTop: 130 }}
-      >
-        <View
-          style={{
-            flex: 1,
-            height: 1,
-            marginLeft: 20,
-            backgroundColor: "black",
-          }}
-        />
-        <View>
-          <Text style={{ paddingHorizontal: 8, textAlign: "center" }}>
-            Nossas Redes
-          </Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            height: 1,
-            marginRight: 20,
-            backgroundColor: "black",
-          }}
-        />
-      </View>
-      <View style={styles.icones}>
-        <SocialIcon
-          style={styles.icone}
-          title="Siga-me"
-          button
-          light
-          iconSize={23}
-          type="instagram"
-          onPress={() => Linking.openURL("http://instagram.com/JoaoSttirlley")}
-        />
-        <SocialIcon
-          style={styles.icone}
-          title="Siga-me"
-          button
-          light
-          iconSize={24}
-          type="github"
-          onPress={() =>
-            Linking.openURL("http://github.com/JoaoGabrielPuhlMachado")
-          }
         />
       </View>
     </View>
@@ -145,16 +151,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  login: {
+  registro: {
     backgroundColor: "white",
     width: 250,
     height: 50,
     padding: 10,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 10,
   },
-  logintext: {
+  registrotext: {
     marginTop: "auto",
     marginBottom: "auto",
     textAlign: "center",
@@ -172,8 +178,8 @@ const styles = StyleSheet.create({
   },
   cabecalho: {
     fontSize: 45,
-    marginTop: 50,
-    marginBottom: 180,
+    marginTop: 0,
+    marginBottom: 50,
   },
   icones: {
     flexDirection: "row",
@@ -183,14 +189,14 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
   },
-  registrotext: {
+  logintext: {
     color: "rgba(200,0,0,1)",
     paddingRight: 8,
   },
   semconta: {
     paddingLeft: 8,
   },
-  registrowrap: {
+  loginwrap: {
     flexDirection: "row",
   },
 });

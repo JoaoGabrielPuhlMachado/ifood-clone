@@ -7,7 +7,7 @@ import Perfil from "./screens/Perfil";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function Routes() {
+export default function Routes({}) {
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -26,10 +26,9 @@ export default function Routes() {
         }}
       />
       <BottomTab.Screen
-        name="PerfilRoutes"
+        name="Perfil"
         component={Perfil}
         options={{
-          headerShown: false,
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="person" color={color} size={26} />
