@@ -76,7 +76,7 @@ export default function Login({ navigation }) {
           style={styles.registrowrap}
         >
           <Text style={styles.semconta}>Não tem conta?</Text>
-          <Text style={styles.registrotext}>Registre-se!</Text>
+          <Text style={styles.registrotext}> Registre-se!</Text>
         </TouchableOpacity>
         <View
           style={{

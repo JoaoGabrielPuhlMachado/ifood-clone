@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
-import { SocialIcon } from "react-native-elements";
 import UsuariosApi from "/home/joao.machado.63/Documentos/ligiaroupas-react-native/src/api/usuarios.js";
+import DateTimePicker from "@react-native-community/datetimepicker";
+
 const usuariosApi = new UsuariosApi();
 import {
   StyleSheet,
@@ -10,7 +11,6 @@ import {
   Text,
   TextInput,
   View,
-  Linking,
 } from "react-native";
 
 import { authState } from "../../recoil/atoms/auth.js";
@@ -23,13 +23,12 @@ export default function Registro({ navigation }) {
   const [last_name, setLast_Name] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cpf, setCpf] = useState("");
-  const [data_nascimento, setData_Nascimento] = useState("");
-  const [foto, setFoto] = useState("");
+  const [data_nascimento, setData_Nascimento] = useState(new Date()); // Defina a data inicial aqui
   const [errorMsg, setErrorMsg] = useState("");
 
   const registro = async () => {
     try {
-      const { data } = await usuariosApi.adicionarUsuario({
+      await usuariosApi.adicionarUsuario({
         email: email,
         password: password,
         first_name: first_name,
@@ -37,7 +36,10 @@ export default function Registro({ navigation }) {
         telefone: telefone,
         cpf: cpf,
         data_nascimento: data_nascimento,
-        foto: foto,
+      });
+      const { data } = await api.post("token/", {
+        email: email,
+        password: password,
       });
       setUser({
         loggedIn: true,
@@ -61,6 +63,7 @@ export default function Registro({ navigation }) {
         value={first_name}
         onChangeText={setFirst_Name}
         autoCapitalize={"none"}
+        textContentType="name"
       />
       <TextInput
         style={styles.input}
@@ -69,6 +72,7 @@ export default function Registro({ navigation }) {
         value={last_name}
         onChangeText={setLast_Name}
         autoCapitalize={"none"}
+        textContentType="middleName"
       />
       <TextInput
         style={styles.input}
@@ -77,14 +81,16 @@ export default function Registro({ navigation }) {
         value={email}
         onChangeText={setEmail}
         autoCapitalize={"none"}
+        textContentType="emailAddress"
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Telefone"
         placeholderTextColor="rgba(0,0,0,0.5)"
         value={telefone}
         onChangeText={setTelefone}
         autoCapitalize={"none"}
+        textContentType="telephoneNumber"
       />
       <TextInput
         style={styles.input}
@@ -94,13 +100,17 @@ export default function Registro({ navigation }) {
         onChangeText={setCpf}
         autoCapitalize={"none"}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="rgba(0,0,0,0.5)"
+      <DateTimePicker
+        style={styles.datePicker}
         value={data_nascimento}
-        onChangeText={setData_Nascimento}
-        autoCapitalize={"none"}
+        mode="date"
+        placeholder="Data de Nascimento"
+        format="DD-MM-YYYY"
+        confirmBtnText="Confirmar"
+        cancelBtnText="Cancelar"
+        onChange={(event, selectedDate) => {
+          setData_Nascimento(selectedDate || data_nascimento);
+        }}
       />
       <TextInput
         style={styles.input}
@@ -108,8 +118,9 @@ export default function Registro({ navigation }) {
         placeholderTextColor="rgba(0,0,0,0.5)"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
         autoCapitalize={"none"}
+        textContentType="password"
+        secureTextEntry
       />
       <Text>{errorMsg}</Text>
       <TouchableOpacity style={styles.registro} onPress={() => registro()}>
@@ -180,6 +191,14 @@ const styles = StyleSheet.create({
     fontSize: 45,
     marginTop: 0,
     marginBottom: 50,
+  },
+  datePicker: {
+    width: 250,
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: "rgba(255,255,255,0.8)",
+    borderColor: "rgba(0,0,0,0.1)",
   },
   icones: {
     flexDirection: "row",
