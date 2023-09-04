@@ -23,8 +23,15 @@ export default function Registro({ navigation }) {
   const [last_name, setLast_Name] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cpf, setCpf] = useState("");
-  const [data_nascimento, setData_Nascimento] = useState(new Date()); // Defina a data inicial aqui
+  const [data_nascimento, setData_Nascimento] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || data_nascimento;
+    setShowDatePicker(false);
+    setData_Nascimento(currentDate);
+  };
 
   const registro = async () => {
     try {
@@ -35,7 +42,8 @@ export default function Registro({ navigation }) {
         last_name: last_name,
         telefone: telefone,
         cpf: cpf,
-        data_nascimento: data_nascimento,
+        data_nascimento: data_nascimento.toISOString().split("T")[0],
+        groups: [2],
       });
       const { data } = await api.post("token/", {
         email: email,
@@ -47,6 +55,7 @@ export default function Registro({ navigation }) {
         refresh: data.refresh,
       });
       await SecureStore.setItemAsync("access", data.access);
+      navigation.navigate("Home");
     } catch (error) {
       setUser({ loggedIn: false, access: null, refresh: null });
       setErrorMsg("Informe todos os campos!");
@@ -100,18 +109,32 @@ export default function Registro({ navigation }) {
         onChangeText={setCpf}
         autoCapitalize={"none"}
       />
-      <DateTimePicker
-        style={styles.datePicker}
-        value={data_nascimento}
-        mode="date"
-        placeholder="Data de Nascimento"
-        format="DD-MM-YYYY"
-        confirmBtnText="Confirmar"
-        cancelBtnText="Cancelar"
-        onChange={(event, selectedDate) => {
-          setData_Nascimento(selectedDate || data_nascimento);
-        }}
-      />
+      <TouchableOpacity
+        style={styles.input}
+        onPress={() => setShowDatePicker(true)}
+      >
+        <Text
+          style={{
+            marginTop: "auto",
+            marginBottom: "auto",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          Data de Nascimento:{" "}
+          {data_nascimento ? data_nascimento.toLocaleDateString() : ""}
+        </Text>
+      </TouchableOpacity>
+      {showDatePicker && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={data_nascimento}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          onChange={handleDateChange}
+        />
+      )}
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -191,14 +214,6 @@ const styles = StyleSheet.create({
     fontSize: 45,
     marginTop: 0,
     marginBottom: 50,
-  },
-  datePicker: {
-    width: 250,
-    marginBottom: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    backgroundColor: "rgba(255,255,255,0.8)",
-    borderColor: "rgba(0,0,0,0.1)",
   },
   icones: {
     flexDirection: "row",

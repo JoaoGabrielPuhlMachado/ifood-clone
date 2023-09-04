@@ -14,7 +14,9 @@ export default function Main() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName={currentAuthState.loggedIn ? "Routes" : "Login"}
+      >
         {currentAuthState.loggedIn ? (
           <Stack.Screen
             name="Routes"
