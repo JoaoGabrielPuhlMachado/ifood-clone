@@ -1,13 +1,15 @@
 import { useState } from "react";
-import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
+import api from "@/../../src/services/api.js";
+import { SocialIcon } from "react-native-elements";
 import {
   StyleSheet,
   TouchableOpacity,
   Text,
   TextInput,
   View,
+  Linking,
 } from "react-native";
 
 import { authState } from "../../recoil/atoms/auth.js";
@@ -20,13 +22,10 @@ export default function Login() {
 
   const login = async () => {
     try {
-      const { data } = await axios.post(
-        "http://191.52.55.226:19003/api/token/",
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const { data } = await api.post("token/", {
+        email: email,
+        password: password,
+      });
       setUser({
         loggedIn: true,
         access: data.access,
@@ -41,18 +40,23 @@ export default function Login() {
   };
   return (
     <View style={styles.container}>
+      <Text style={styles.cabecalho}>{`Bem-Vindo à\n Lígia Roupas`}</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="rgba(0,0,0,0.5)"
         value={email}
         onChangeText={setEmail}
+        autoCapitalize={"none"}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="rgba(0,0,0,0.5)"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        autoCapitalize={"none"}
       />
       <TouchableOpacity
         style={styles.login}
@@ -62,6 +66,51 @@ export default function Login() {
         <Text style={styles.logintext}>Login</Text>
       </TouchableOpacity>
       <Text>{errorMsg}</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{
+            flex: 1,
+            height: 1,
+            marginLeft: 20,
+            backgroundColor: "black",
+          }}
+        />
+        <View>
+          <Text style={{ paddingHorizontal: 8, textAlign: "center" }}>
+            Nossas Redes
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            height: 1,
+            marginRight: 20,
+            backgroundColor: "black",
+          }}
+        />
+      </View>
+      <View style={styles.icones}>
+        <SocialIcon
+          style={styles.icone}
+          title="Siga-nos"
+          button
+          light
+          iconSize={23}
+          type="instagram"
+          onPress={() => Linking.openURL("http://instagram.com/JoaoSttirlley")}
+        />
+        <SocialIcon
+          style={styles.icone}
+          title="Criador"
+          button
+          light
+          iconSize={24}
+          type="github"
+          onPress={() =>
+            Linking.openURL("http://github.com/JoaoGabrielPuhlMachado")
+          }
+        />
+      </View>
     </View>
   );
 }
@@ -69,24 +118,46 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1ebf7",
     alignItems: "center",
     justifyContent: "center",
   },
   login: {
-    backgroundColor: "#f1ebf7",
-    width: 75,
+    backgroundColor: "white",
+    width: 250,
+    height: 50,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: -10,
   },
   logintext: {
+    marginTop: "auto",
+    marginBottom: "auto",
     textAlign: "center",
     fontWeight: "bold",
   },
   input: {
-    width: 200,
-    height: 40,
-    border: 1,
-    borderColor: "#111111",
+    padding: 10,
+    marginBottom: 10,
+    width: 250,
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: "rgba(255,255,255,0.5)",
+    borderColor: "rgba(0,0,0,0.1)",
+  },
+  cabecalho: {
+    fontSize: 45,
+    marginTop: -130,
+    marginBottom: 140,
+  },
+  icones: {
+    flexDirection: "row",
+  },
+  icone: {
+    width: 118,
+    height: 50,
+    borderRadius: 10,
   },
 });
