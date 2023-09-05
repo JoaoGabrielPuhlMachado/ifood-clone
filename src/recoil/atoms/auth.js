@@ -1,5 +1,13 @@
 import { atom, useRecoilState } from "recoil";
 import { AsyncStorage } from "react-native";
+import { decode, encode } from "base-64";
+
+if (!global.btoa) {
+  global.btoa = encode;
+}
+if (!global.atob) {
+  global.atob = decode;
+}
 
 export const authState = atom({
   key: "authEstado",

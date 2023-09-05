@@ -18,7 +18,6 @@ import UsuariosApi from "@/../../api/usuarios.js";
 const Usuario = ({ route }) => {
   const usuariosApi = new UsuariosApi();
   const auth = useRecoilValue(authState);
-  const { userId } = auth;
   const [usuario, setUsuario] = useState({
     email: "",
     password: "",
@@ -36,6 +35,11 @@ const Usuario = ({ route }) => {
 
   useEffect(() => {
     const fetchUsuario = async () => {
+      console.log(userId);
+      console.log(auth);
+      console.log(JSON.parse(atob(auth.access.split(".")[1])).user_id);
+      // criar variavel para guardar info do user id e usar dps...
+
       try {
         const usuarioData = await usuariosApi.buscarUsuarioPorId(userId);
         setUsuario(usuarioData);
@@ -99,6 +103,7 @@ const Usuario = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <Text>--{userId}</Text>
       <View>
         <Image
           style={{ width: 100, height: 100 }}
