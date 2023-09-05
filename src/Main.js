@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Routes from "./routes.js";
 import Login from "./screens/Login/index.js";
 import Registro from "./screens/Registro/index.js";
+import Usuario from "./screens/Usuario/index.js";
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,7 @@ export default function Main() {
             />
           </>
         )}
+        <Stack.Screen name="Usuario" component={Usuario} />
       </Stack.Navigator>
     </NavigationContainer>
   );

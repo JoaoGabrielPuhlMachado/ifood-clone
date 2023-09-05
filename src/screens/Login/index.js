@@ -1,8 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
 import api from "@/../../src/services/api.js";
 import { SocialIcon } from "react-native-elements";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -18,7 +20,12 @@ export default function Login({ navigation }) {
   const setUser = useSetRecoilState(authState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const login = async () => {
     try {
@@ -38,6 +45,7 @@ export default function Login({ navigation }) {
       await SecureStore.deleteItemAsync("access");
     }
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.cabecalho}>{`Bem-Vindo à\n Lígia Roupas`}</Text>
@@ -49,17 +57,33 @@ export default function Login({ navigation }) {
         onChangeText={setEmail}
         autoCapitalize={"none"}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="rgba(0,0,0,0.5)"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        autoCapitalize={"none"}
-      />
+      <View style={styles.passwordInput}>
+        <TextInput
+          style={styles.passwordTextInput}
+          placeholder="Password"
+          placeholderTextColor="rgba(0,0,0,0.5)"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+          autoCapitalize={"none"}
+        />
+        <TouchableOpacity
+          style={styles.togglePasswordIcon}
+          onPress={togglePasswordVisibility}
+        >
+          <FontAwesomeIcon
+            icon={showPassword ? faEye : faEyeSlash}
+            size={20}
+            color="#000"
+          />
+        </TouchableOpacity>
+      </View>
       <Text>{errorMsg}</Text>
-      <TouchableOpacity style={styles.login} onPress={() => login()}>
+      <TouchableOpacity
+        activeOpacity={0.5}
+        style={styles.login}
+        onPress={() => login()}
+      >
         <Text style={styles.logintext}>Login</Text>
       </TouchableOpacity>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -113,32 +137,58 @@ export default function Login({ navigation }) {
         />
       </View>
       <View style={styles.icones}>
-        <SocialIcon
+        <TouchableOpacity
           style={styles.icone}
-          title="Siga-me"
-          button
-          light
-          iconSize={23}
-          type="instagram"
+          activeOpacity={0.6}
           onPress={() => Linking.openURL("http://instagram.com/JoaoSttirlley")}
-        />
-        <SocialIcon
+        >
+          <SocialIcon
+            title="Siga-me"
+            button
+            light
+            iconSize={23}
+            type="instagram"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
           style={styles.icone}
-          title="Siga-me"
-          button
-          light
-          iconSize={24}
-          type="github"
+          activeOpacity={0.6}
           onPress={() =>
             Linking.openURL("http://github.com/JoaoGabrielPuhlMachado")
           }
-        />
+        >
+          <SocialIcon
+            title="Siga-me"
+            button
+            light
+            iconSize={23}
+            type="github"
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  passwordInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "rgba(0,0,0,0.1)",
+    backgroundColor: "rgba(255,255,255,0.8)",
+    width: 250,
+    height: 50,
+    marginBottom: 10,
+  },
+  passwordTextInput: {
+    flex: 1,
+    padding: 10,
+  },
+  togglePasswordIcon: {
+    padding: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: "#f1ebf7",
@@ -179,8 +229,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   icone: {
-    width: 118,
-    height: 50,
+    width: 130,
+    height: 65,
     borderRadius: 10,
   },
   registrotext: {

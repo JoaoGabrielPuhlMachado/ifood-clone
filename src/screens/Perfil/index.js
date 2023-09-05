@@ -6,7 +6,7 @@ import * as SecureStore from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
 import { authState } from "../../recoil/atoms/auth.js";
 
-export default function Perfil() {
+export default function Perfil({ navigation }) {
   const setUser = useSetRecoilState(authState);
   const logOut = async () => {
     setUser({
@@ -17,7 +17,10 @@ export default function Perfil() {
   return (
     <ScrollView style={styles.container}>
       <ScrollView>
-        <TouchableOpacity style={styles.option} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => navigation.navigate("Usuario")}
+        >
           <MaterialIcons name="person" size={35} color="#333" />
           <ScrollView style={styles.info}>
             <Text style={styles.title}>Usuário</Text>
@@ -50,7 +53,7 @@ export default function Perfil() {
           <MaterialCommunityIcons name="logout" size={35} color="#333" />
           <ScrollView style={styles.info}>
             <Text style={styles.title}>Sair</Text>
-            <Text style={styles.description}>Realiza o LogOut do Usuário</Text>
+            <Text style={styles.description}>Realiza o logout do usuário</Text>
           </ScrollView>
           <MaterialIcons name="keyboard-arrow-right" color="#999" size={20} />
         </TouchableOpacity>
