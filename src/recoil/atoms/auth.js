@@ -21,15 +21,29 @@ export const authState = atom({
 
 export const setToken = async (newToken) => {
   const [auth, setAuth] = useRecoilState(authState);
+
+  // Função para extrair o payload do token e obter o userId
+  const getUserIdFromToken = (token) => {
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      return payload.user_id || "";
+    } catch (error) {
+      console.error("Erro ao decodificar o token:", error);
+      return "";
+    }
+  };
+
+  // Calcular o userId
+  const userId = getUserIdFromToken(newToken);
+
   setAuth({
     ...auth,
     token: newToken,
-    isAdmin: newToken
-      ? JSON.parse(atob(newToken.split(".")[1])).isAdmin
-      : false,
+    isAdmin: newToken ? getUserIdFromToken(newToken).isAdmin : false,
     isLogged: !!newToken,
-    userId: newToken ? JSON.parse(atob(newToken.split(".")[1])).user_id : "",
+    userId: userId,
   });
+
   try {
     await AsyncStorage.setItem("token", newToken);
   } catch (error) {

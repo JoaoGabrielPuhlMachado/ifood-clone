@@ -10,12 +10,12 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-import { useRecoilValue } from "recoil";
-import { authState } from "../../recoil/atoms/auth.js";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { authState, setToken } from "../../recoil/atoms/auth.js";
 
 import UsuariosApi from "@/../../api/usuarios.js";
 
-const Usuario = ({ route }) => {
+const Usuario = ({ route, navigation }) => {
   const usuariosApi = new UsuariosApi();
   const auth = useRecoilValue(authState);
   const [usuario, setUsuario] = useState({
@@ -28,20 +28,25 @@ const Usuario = ({ route }) => {
     data_nascimento: new Date(),
     foto: "",
   });
-
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const setUserId = useSetRecoilState(authState);
+  let userIdFromToken = "";
+
   useEffect(() => {
     const fetchUsuario = async () => {
-      console.log(userId);
-      console.log(auth);
-      console.log(JSON.parse(atob(auth.access.split(".")[1])).user_id);
-      // criar variavel para guardar info do user id e usar dps...
+      if (auth.access) {
+        userIdFromToken = JSON.parse(atob(auth.access.split(".")[1])).user_id;
+        setUserId(userIdFromToken);
+        console.log(userIdFromToken);
+      }
 
       try {
-        const usuarioData = await usuariosApi.buscarUsuarioPorId(userId);
+        const usuarioData = await usuariosApi.buscarUsuarioPorId(
+          userIdFromToken
+        );
         setUsuario(usuarioData);
       } catch (error) {
         console.error(error);
@@ -49,7 +54,7 @@ const Usuario = ({ route }) => {
     };
 
     fetchUsuario();
-  }, [userId]);
+  }, [auth.access, setUserId]);
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || usuario.data_nascimento;
@@ -65,14 +70,14 @@ const Usuario = ({ route }) => {
     try {
       if (usuario.id) {
         await usuariosApi.atualizarUsuario(usuario);
+        navigation.navigate("Login");
         Alert.alert("Usuário atualizado com sucesso!");
       } else {
         await usuariosApi.adicionarUsuario(usuario);
+        navigation.navigate("Login");
       }
-      // Navegue para a página desejada após salvar
     } catch (error) {
       setErrorMsg("Informe todos os campos!");
-      // Lide com o erro aqui
     }
   };
 
@@ -88,10 +93,10 @@ const Usuario = ({ route }) => {
         {
           text: "Confirmar",
           onPress: async () => {
-            if (usuario.userId) {
-              await usuariosApi.excluirUsuario(usuario.userId);
+            if (userIdFromToken) {
+              await usuariosApi.excluirUsuario(userIdFromToken);
               Alert.alert("Sua conta foi excluída com sucesso!");
-              // Navegue para a página desejada após a exclusão
+              navigation.navigate("Login");
             } else {
               Alert.alert("A conta não possui um ID válido.");
             }
@@ -101,12 +106,16 @@ const Usuario = ({ route }) => {
     );
   };
 
+  const updateAuthToken = async (newToken) => {
+    await setToken(newToken);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>--{userId}</Text>
+      <Text style={styles.userIdText}>--{userIdFromToken}</Text>
       <View>
         <Image
-          style={{ width: 100, height: 100 }}
+          style={styles.userImage}
           source={{ uri: usuario.foto ? usuario.foto.url : null }}
         />
         {!usuario.foto && <Text>Usuário Sem Imagem</Text>}
@@ -157,27 +166,25 @@ const Usuario = ({ route }) => {
       />
       <TouchableOpacity
         activeOpacity={0.6}
-        style={styles.input}
+        style={styles.datePicker}
         onPress={() => setShowDatePicker(true)}
       >
-        <Text
-          style={{
-            marginTop: "auto",
-            marginBottom: "auto",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
+        <Text style={styles.datePickerText}>
           Data de Nascimento:{" "}
-          {usuario.data_nascimento
+          {usuario.data_nascimento instanceof Date
             ? usuario.data_nascimento.toLocaleDateString()
             : ""}
         </Text>
       </TouchableOpacity>
+
       {showDatePicker && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={usuario.data_nascimento}
+          value={
+            usuario.data_nascimento instanceof Date
+              ? usuario.data_nascimento
+              : new Date()
+          }
           mode="date"
           is24Hour={true}
           display="default"
@@ -206,11 +213,11 @@ const Usuario = ({ route }) => {
           />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={handleExcluir}>
-        <Text>Excluir Conta</Text>
+      <TouchableOpacity style={styles.button} onPress={handleExcluir}>
+        <Text style={styles.buttonText}>Excluir Conta</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSalvar}>
-        <Text>Salvar Informações</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSalvar}>
+        <Text style={styles.buttonText}>Salvar Informações</Text>
       </TouchableOpacity>
       <Text>{errorMsg}</Text>
     </View>
@@ -224,6 +231,17 @@ const styles = {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#f1ebf7", // Cor de fundo similar à página de login
+  },
+  userIdText: {
+    fontSize: 20,
+    marginBottom: 10,
+    color: "#000", // Cor do texto similar à página de login
+  },
+  userImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
   },
   input: {
     padding: 10,
@@ -234,6 +252,21 @@ const styles = {
     borderWidth: 1,
     backgroundColor: "rgba(255,255,255,0.8)",
     borderColor: "rgba(0,0,0,0.1)",
+  },
+  datePicker: {
+    padding: 10,
+    marginBottom: 10,
+    width: 250,
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: "rgba(255,255,255,0.8)",
+    borderColor: "rgba(0,0,0,0.1)",
+    justifyContent: "center",
+  },
+  datePickerText: {
+    marginTop: "auto",
+    marginBottom: "auto",
   },
   passwordInput: {
     flexDirection: "row",
@@ -252,5 +285,18 @@ const styles = {
   },
   togglePasswordIcon: {
     padding: 10,
+  },
+  button: {
+    backgroundColor: "white",
+    width: 250,
+    height: 50,
+    borderRadius: 10,
+    marginTop: 20,
+    marginBottom: 10,
+    justifyContent: "center",
+  },
+  buttonText: {
+    textAlign: "center",
+    fontWeight: "bold",
   },
 };

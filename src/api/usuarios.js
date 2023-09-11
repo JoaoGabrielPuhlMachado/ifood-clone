@@ -5,7 +5,7 @@ export default class UsuariosApi {
     return data;
   }
   async buscarUsuarioPorId(id) {
-    const { data } = await api.get(`usuarios/${id}/`);
+    const { data } = await api.get(`usuarios/${id}`);
     return data;
   }
   async adicionarUsuario(usuario) {
