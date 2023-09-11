@@ -38,7 +38,11 @@ export default function Main() {
             />
           </>
         )}
-        <Stack.Screen name="Usuario" component={Usuario} />
+        <Stack.Screen
+          name="Usuario"
+          component={Usuario}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

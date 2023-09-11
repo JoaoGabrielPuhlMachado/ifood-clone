@@ -16,6 +16,13 @@ import { authState, setToken } from "../../recoil/atoms/auth.js";
 import UsuariosApi from "@/../../api/usuarios.js";
 
 const Usuario = ({ route, navigation }) => {
+  const setUser = useSetRecoilState(authState);
+  const logOut = async () => {
+    setUser({
+      loggedIn: false,
+    });
+    await SecureStore.deleteItemAsync("access");
+  };
   const usuariosApi = new UsuariosApi();
   const auth = useRecoilValue(authState);
   const [usuario, setUsuario] = useState({
@@ -68,13 +75,13 @@ const Usuario = ({ route, navigation }) => {
 
   const handleSalvar = async () => {
     try {
-      if (usuario.id) {
+      if (usuario.userIdFromToken) {
         await usuariosApi.atualizarUsuario(usuario);
-        navigation.navigate("Login");
+        navigation.navigate("Perfil");
         Alert.alert("Usuário atualizado com sucesso!");
       } else {
         await usuariosApi.adicionarUsuario(usuario);
-        navigation.navigate("Login");
+        navigation.navigate("Perfil");
       }
     } catch (error) {
       setErrorMsg("Informe todos os campos!");
@@ -95,6 +102,7 @@ const Usuario = ({ route, navigation }) => {
           onPress: async () => {
             if (userIdFromToken) {
               await usuariosApi.excluirUsuario(userIdFromToken);
+              logOut();
               Alert.alert("Sua conta foi excluída com sucesso!");
               navigation.navigate("Login");
             } else {

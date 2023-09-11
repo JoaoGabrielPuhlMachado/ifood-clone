@@ -41,7 +41,7 @@ export default function Login({ navigation }) {
       await SecureStore.setItemAsync("access", data.access);
     } catch (error) {
       setUser({ loggedIn: false, access: null, refresh: null });
-      setErrorMsg("Usuário ou senha inválidos!");
+      setErrorMsg("Email ou senha inválidos!");
       await SecureStore.deleteItemAsync("access");
     }
   };
