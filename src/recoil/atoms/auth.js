@@ -1,5 +1,6 @@
 import { atom, useRecoilState } from "recoil";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { decode, encode } from "base-64";
 
 if (!global.btoa) {
@@ -12,41 +13,49 @@ if (!global.atob) {
 export const authState = atom({
   key: "authEstado",
   default: {
-    token: null,
+    token: "",
     isAdmin: false,
     isLogged: false,
     userId: "",
   },
 });
 
-export const setToken = async (newToken) => {
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
+
+export function useAuth() {
   const [auth, setAuth] = useRecoilState(authState);
 
-  // Função para extrair o payload do token e obter o userId
-  const getUserIdFromToken = (token) => {
+  const setToken = async (token) => {
     try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload.user_id || "";
+      await AsyncStorage.setItem("token", token);
+
+      const splittedToken = parseJwt(token);
+      setAuth({
+        token,
+        isAdmin: splittedToken.isAdmin,
+        isLogged: true,
+        userId: splittedToken.user_id,
+      });
     } catch (error) {
-      console.error("Erro ao decodificar o token:", error);
-      return "";
+      console.error("Erro ao armazenar o token:", error);
     }
   };
 
-  // Calcular o userId
-  const userId = getUserIdFromToken(newToken);
+  const getTokenFromStorage = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      return token;
+    } catch (error) {
+      console.error("Erro ao recuperar o token:", error);
+      return null;
+    }
+  };
 
-  setAuth({
-    ...auth,
-    token: newToken,
-    isAdmin: newToken ? getUserIdFromToken(newToken).isAdmin : false,
-    isLogged: !!newToken,
-    userId: userId,
-  });
-
-  try {
-    await AsyncStorage.setItem("token", newToken);
-  } catch (error) {
-    console.error("Erro ao salvar o token:", error);
-  }
-};
+  return { auth, setToken, getTokenFromStorage };
+}

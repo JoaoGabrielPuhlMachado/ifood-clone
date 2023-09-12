@@ -47,9 +47,7 @@ const Usuario = ({ route, navigation }) => {
       if (auth.access) {
         userIdFromToken = JSON.parse(atob(auth.access.split(".")[1])).user_id;
         setUserId(userIdFromToken);
-        console.log(userIdFromToken);
       }
-
       try {
         const usuarioData = await usuariosApi.buscarUsuarioPorId(
           userIdFromToken
@@ -76,7 +74,7 @@ const Usuario = ({ route, navigation }) => {
   const handleSalvar = async () => {
     try {
       if (usuario.userIdFromToken) {
-        await usuariosApi.atualizarUsuario(usuario);
+        await usuariosApi.atualizarUsuario(usuario.userIdFromToken);
         navigation.navigate("Perfil");
         Alert.alert("Usuário atualizado com sucesso!");
       } else {
@@ -100,7 +98,7 @@ const Usuario = ({ route, navigation }) => {
         {
           text: "Confirmar",
           onPress: async () => {
-            if (userIdFromToken) {
+            if (usuario.userIdFromToken) {
               await usuariosApi.excluirUsuario(userIdFromToken);
               logOut();
               Alert.alert("Sua conta foi excluída com sucesso!");
