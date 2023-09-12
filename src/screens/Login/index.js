@@ -40,6 +40,7 @@ export default function Login({ navigation }) {
         userId: data.user_id,
         isLogged: true,
       });
+      console.log(data.access)
     } catch (error) {
       setErrorMsg("Email ou senha inválidos!");
     }
