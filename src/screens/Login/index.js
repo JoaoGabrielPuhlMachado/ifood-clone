@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as SecureStore from "expo-secure-store";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import api from "@/../../src/services/api.js";
 import { SocialIcon } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -14,10 +14,12 @@ import {
   Linking,
 } from "react-native";
 
-import { authState } from "../../recoil/atoms/auth.js";
+import { authState, useAuth } from "../../recoil/atoms/auth.js";
 
 export default function Login({ navigation }) {
-  const [auth, setAuth] = useRecoilState(authState);
+  const { setToken } = useAuth();
+  const { auth } = useAuth();
+  const setAuth = useSetRecoilState(authState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -33,16 +35,21 @@ export default function Login({ navigation }) {
         email: email,
         password: password,
       });
-      await SecureStore.setItemAsync("access", data.access);
+
+      await setToken(data.access);
+
       setAuth({
-        ...auth,
-        token: data.access,
-        userId: data.user_id,
         isLogged: true,
+        token: data.access,
+        refresh: data.refresh,
+        userID: data.userId,
       });
-      console.log(data.access)
+      console.log(auth);
+      await SecureStore.setItemAsync("access", data.access);
     } catch (error) {
+      setAuth({ isLogged: false, token: null, refresh: null, userID: null });
       setErrorMsg("Email ou senha inválidos!");
+      await SecureStore.deleteItemAsync("access");
     }
   };
 
