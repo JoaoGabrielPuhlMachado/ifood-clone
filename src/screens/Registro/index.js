@@ -65,7 +65,7 @@ export default function Registro({ navigation }) {
       });
       setUser({
         loggedIn: true,
-        access: data.access,
+        token: data.access,
         refresh: data.refresh,
       });
       await SecureStore.setItemAsync("access", data.access);
