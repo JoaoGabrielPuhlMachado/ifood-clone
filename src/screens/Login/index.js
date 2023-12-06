@@ -31,23 +31,22 @@ export default function Login({ navigation }) {
 
   const login = async () => {
     try {
-      const { data } = await api.post("token/", {
+      const { data } = await api.post("token/custom/", {
         email: email,
         password: password,
       });
-
       await setToken(data.access);
-
       setAuth({
         isLogged: true,
         token: data.access,
         refresh: data.refresh,
         userID: data.userId,
+        tipoUsuario: data.tipo_Usuario,
       });
-      console.log(auth);
       await SecureStore.setItemAsync("access", data.access);
+      console.log(auth);
     } catch (error) {
-      setAuth({ isLogged: false, token: null, refresh: null, userID: null });
+      // setAuth({ isLogged: false, token: null, refresh: null, userID: null });
       setErrorMsg("Email ou senha inválidos!");
       await SecureStore.deleteItemAsync("access");
     }

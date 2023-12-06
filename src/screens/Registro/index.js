@@ -57,9 +57,9 @@ export default function Registro({ navigation }) {
         telefone: telefone,
         cpf: cpf,
         data_nascimento: data_nascimento.toISOString().split("T")[0],
-        groups: [2],
+        tipo_usuario: 1,
       });
-      const { data } = await api.post("token/", {
+      const { data } = await api.post("token/custom/", {
         email: email,
         password: password,
       });

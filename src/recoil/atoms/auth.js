@@ -6,10 +6,10 @@ export const authState = atom({
   key: "authEstado",
   default: {
     token: "",
-    isAdmin: false,
     isLogged: false,
     refresh: "",
     userId: "",
+    tipo_usuario: "",
   },
 });
 
@@ -23,11 +23,13 @@ export function useAuth() {
 
       if (decodedToken) {
         const { user_id } = decodedToken;
+        const { tipo_usuario } = decodedToken;
+        // console.log(decodedToken)
         setAuth({
           token,
-          isAdmin: decodedToken.isAdmin,
           isLogged: true,
           userId: user_id,
+          tipo_Usuario: tipo_usuario,
         });
       } else {
         console.error("Erro ao decodificar o token.");
