@@ -17,7 +17,7 @@ export default function CardCategorias() {
           <View key={categoria.id} style={styles.card}>
             <Image
               style={styles.imagem}
-              source={{ uri: categoria.capa_categoria?.file }}
+              source={{ uri: categoria.capa_categoria?.url }}
             />
             <Text style={styles.texto}>{categoria.descricao}</Text>
           </View>

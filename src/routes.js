@@ -52,7 +52,7 @@ function Routes({}) {
 export default function Main({}) {
   const currentAuthState = useRecoilValue(authState);
 
-  if (currentAuthState.loggedIn) {
+  if (currentAuthState.isLogged) {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Routes">

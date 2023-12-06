@@ -17,7 +17,7 @@ export default function CardMarcas() {
           <View key={marca.id} style={styles.card}>
             <Image
               style={styles.imagem}
-              source={{ uri: marca.logo_marca?.file }}
+              source={{ uri: marca.logo_marca?.url }}
             />
           </View>
         ))}

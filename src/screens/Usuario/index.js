@@ -40,18 +40,11 @@ const Usuario = ({ route, navigation }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const setUserId = useSetRecoilState(authState);
-  let userIdFromToken = "";
 
   useEffect(() => {
     const fetchUsuario = async () => {
-      if (auth.access) {
-        userIdFromToken = JSON.parse(atob(auth.access.split(".")[1])).user_id;
-        setUserId(userIdFromToken);
-      }
       try {
-        const usuarioData = await usuariosApi.buscarUsuarioPorId(
-          userIdFromToken
-        );
+        const usuarioData = await usuariosApi.buscarUsuarioPorId(auth.userID);
         setUsuario(usuarioData);
       } catch (error) {
         console.error(error);
@@ -59,7 +52,7 @@ const Usuario = ({ route, navigation }) => {
     };
 
     fetchUsuario();
-  }, [auth.access, setUserId]);
+  }, [setUserId]);
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || usuario.data_nascimento;
@@ -73,12 +66,12 @@ const Usuario = ({ route, navigation }) => {
 
   const handleSalvar = async () => {
     try {
-      if (usuario.userIdFromToken) {
-        await usuariosApi.atualizarUsuario(usuario.userIdFromToken);
+      if (auth.userID) {
+        await usuariosApi.atualizarUsuario(auth.userID);
         navigation.navigate("Perfil");
         Alert.alert("Usuário atualizado com sucesso!");
       } else {
-        await usuariosApi.adicionarUsuario(usuario);
+        await usuariosApi.adicionarUsuario(auth.userID);
         navigation.navigate("Perfil");
       }
     } catch (error) {
@@ -98,8 +91,8 @@ const Usuario = ({ route, navigation }) => {
         {
           text: "Confirmar",
           onPress: async () => {
-            if (usuario.userIdFromToken) {
-              await usuariosApi.excluirUsuario(userIdFromToken);
+            if (auth.userID) {
+              await usuariosApi.excluirUsuario(auth.userID);
               logOut();
               Alert.alert("Sua conta foi excluída com sucesso!");
               navigation.navigate("Login");
@@ -111,14 +104,12 @@ const Usuario = ({ route, navigation }) => {
       ]
     );
   };
-
   const updateAuthToken = async (newToken) => {
     await setToken(newToken);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.userIdText}>--{userIdFromToken}</Text>
       <View>
         <Image
           style={styles.userImage}

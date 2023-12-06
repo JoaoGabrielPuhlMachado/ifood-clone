@@ -40,13 +40,12 @@ export default function Login({ navigation }) {
         isLogged: true,
         token: data.access,
         refresh: data.refresh,
-        userID: data.userId,
-        tipoUsuario: data.tipo_Usuario,
+        userID: data.user.id,
+        tipoUsuario: data.user.tipo_usuario,
       });
       await SecureStore.setItemAsync("access", data.access);
-      console.log(auth);
     } catch (error) {
-      // setAuth({ isLogged: false, token: null, refresh: null, userID: null });
+      setAuth({ isLogged: false, token: null, refresh: null, userID: null, tipoUsuario: null });
       setErrorMsg("Email ou senha inválidos!");
       await SecureStore.deleteItemAsync("access");
     }
