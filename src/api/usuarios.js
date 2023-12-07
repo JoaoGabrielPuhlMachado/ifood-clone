@@ -5,15 +5,15 @@ export default class UsuariosApi {
     return data;
   }
   async buscarUsuarioPorId(id) {
-    const { data } = await api.get(`usuarios/${id}`);
+    const { data } = await api.get(`usuarios/${id}/`);
     return data;
   }
   async adicionarUsuario(usuario) {
     const { data } = await api.post("usuarios/", usuario);
     return data;
   }
-  async atualizarUsuario(usuario) {
-    const { data } = await api.patch(`usuarios/${usuario.id}/`, usuario);
+  async atualizarUsuario(id, dadosUsuario) {
+    const { data } = await api.patch(`usuarios/${id}/`, dadosUsuario);
     return data;
   }
   async excluirUsuario(id) {

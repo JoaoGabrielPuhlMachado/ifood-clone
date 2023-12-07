@@ -1,9 +1,12 @@
-import { dadosState } from "../../recoil/atoms/dados.js";
-import { useRecoilValue } from "recoil";
+import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { useRecoilValue } from "recoil";
+import { dadosState } from "../../recoil/atoms/dados.js";
 
 export default function CardMarcas() {
+  const navigation = useNavigation();
   const { marcas } = useRecoilValue(dadosState);
 
   if (!marcas || marcas.length === 0) {
@@ -13,13 +16,20 @@ export default function CardMarcas() {
     <View style={styles.container}>
       <Text style={styles.titulo}>Marcas</Text>
       <View style={styles.content}>
-        {marcas.map((marca) => (
-          <View key={marca.id} style={styles.card}>
+      {marcas.map((marca) => (
+          <TouchableOpacity
+            activeOpacity={0.5}
+            key={marca.id}
+            style={styles.card}
+            onPress={() =>
+              navigation.navigate("Marca", { nome_marca: marca.nome_marca })
+            }
+          >
             <Image
               style={styles.imagem}
               source={{ uri: marca.logo_marca?.url }}
             />
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
       <StatusBar style="auto" />
@@ -29,7 +39,7 @@ export default function CardMarcas() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1ebf7",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -47,6 +57,9 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   titulo: {
+    width: "100%",
+    backgroundColor: "#fff",
+    textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
   },

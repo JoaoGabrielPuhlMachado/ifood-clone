@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { ScrollView, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 
@@ -8,11 +8,29 @@ import { authState } from "../../recoil/atoms/auth.js";
 
 export default function Perfil({ navigation }) {
   const setUser = useSetRecoilState(authState);
+  
   const logOut = async () => {
-    setUser({
-      loggedIn: false,
-    });
-    await SecureStore.deleteItemAsync("access");
+    Alert.alert(
+      "Confirmar Logout",
+      "Tem certeza que deseja sair?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Sair",
+          onPress: async () => {
+            setUser({
+              isLogged: false,
+            });
+            await SecureStore.deleteItemAsync("access");
+          },
+          style: "destructive",
+        },
+      ],
+      { cancelable: false }
+    );
   };
   return (
     <ScrollView style={styles.container}>

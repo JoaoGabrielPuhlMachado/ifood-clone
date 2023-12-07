@@ -1,26 +1,37 @@
-import { dadosState } from "../../recoil/atoms/dados.js";
-import { useRecoilValue } from "recoil";
-import { StyleSheet, Text, View, Image } from "react-native";
+import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import { useRecoilValue } from "recoil";
+import { dadosState } from "../../recoil/atoms/dados.js";
 
 export default function CardCategorias() {
+  const navigation = useNavigation();
   const { categorias } = useRecoilValue(dadosState);
 
   if (!categorias || categorias.length === 0) {
     return <Text style={styles.loading}>Carregando categorias...</Text>;
   }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Categorias</Text>
       <View style={styles.content}>
         {categorias.map((categoria) => (
-          <View key={categoria.id} style={styles.card}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            key={categoria.id}
+            style={styles.card}
+            onPress={() =>
+              navigation.navigate("Categoria", { descricao: categoria.descricao })
+            }
+          >
             <Image
               style={styles.imagem}
               source={{ uri: categoria.capa_categoria?.url }}
             />
             <Text style={styles.texto}>{categoria.descricao}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
       <StatusBar style="auto" />
@@ -30,7 +41,7 @@ export default function CardCategorias() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1ebf7",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -58,6 +69,9 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   titulo: {
+    width: "100%",
+    backgroundColor: "#fff",
+    textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
   },

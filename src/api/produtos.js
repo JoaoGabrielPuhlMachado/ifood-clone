@@ -20,4 +20,16 @@ export default class ProdutosApi {
     const { data } = await api.delete(`produtos/${id}/`);
     return data;
   }
+  async buscarProdutosPorCategoria(descricao) {
+    const { data } = await api.get(`produtos/?categoria__descricao=${descricao}`);
+    return data;
+  }
+  async buscarProdutosPorMarca(nome_marca) {
+    const { data } = await api.get(`produtos/?marca__nome_marca=${nome_marca}`);
+    return data;
+  }
+  async buscarProdutosPorNome(nome) {
+    const { data } = await api.get(`produtos/?search=${nome}`);
+    return data;
+  }
 }

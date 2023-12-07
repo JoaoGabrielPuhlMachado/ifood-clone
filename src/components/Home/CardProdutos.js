@@ -1,9 +1,12 @@
-import { dadosState } from "../../recoil/atoms/dados.js";
-import { useRecoilValue } from "recoil";
+import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { useRecoilValue } from "recoil";
+import { dadosState } from "../../recoil/atoms/dados.js";
 
 export default function CardProdutos() {
+  const navigation = useNavigation();
   const { produtos } = useRecoilValue(dadosState);
 
   if (!produtos || produtos.length === 0) {
@@ -14,23 +17,29 @@ export default function CardProdutos() {
       <Text style={styles.titulo}>Produtos</Text>
       <View style={styles.content}>
         {produtos.map((produto) => (
-          <View key={produto.id} style={styles.card}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            key={produto.id}
+            style={styles.card}
+            onPress={() => navigation.navigate("Desc", { id: produto.id })}
+          >
             <Image style={styles.imagem} source={{ uri: produto.capa?.file }} />
             <Text style={styles.texto}>{produto.nome}</Text>
             <Text style={styles.preco}>
               R${produto.preco.replace(".", ",")}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
       <StatusBar style="auto" />
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1ebf7",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -59,10 +68,14 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   titulo: {
+    width: "100%",
+    backgroundColor: "#fff",
+    textAlign: "center",
     fontSize: 30,
     fontWeight: "bold",
   },
   texto: {
+    textAlign: "center",
     fontSize: 13,
     color: "#000",
     marginLeft: 3,

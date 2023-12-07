@@ -18,7 +18,6 @@ import { authState, useAuth } from "../../recoil/atoms/auth.js";
 
 export default function Login({ navigation }) {
   const { setToken } = useAuth();
-  const { auth } = useAuth();
   const setAuth = useSetRecoilState(authState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,8 +31,8 @@ export default function Login({ navigation }) {
   const login = async () => {
     try {
       const { data } = await api.post("token/custom/", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
       await setToken(data.access);
       setAuth({
@@ -45,7 +44,13 @@ export default function Login({ navigation }) {
       });
       await SecureStore.setItemAsync("access", data.access);
     } catch (error) {
-      setAuth({ isLogged: false, token: null, refresh: null, userID: null, tipoUsuario: null });
+      setAuth({
+        isLogged: false,
+        token: null,
+        refresh: null,
+        userID: null,
+        tipoUsuario: null,
+      });
       setErrorMsg("Email ou senha inválidos!");
       await SecureStore.deleteItemAsync("access");
     }

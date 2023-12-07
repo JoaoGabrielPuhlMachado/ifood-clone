@@ -1,0 +1,30 @@
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
+  <View style={styles.passwordInput}>
+        <TextInput
+          style={styles.passwordTextInput}
+          placeholder="Senha"
+          placeholderTextColor="rgba(0,0,0,0.5)"
+          value={usuario.password}
+          onChangeText={(text) => setUsuario({ ...usuario, password: text })}
+          secureTextEntry={!showPassword}
+          autoCapitalize={"none"}
+        />
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={styles.togglePasswordIcon}
+          onPress={togglePasswordVisibility}
+        >
+          <FontAwesomeIcon
+            icon={showPassword ? faEye : faEyeSlash}
+            size={20}
+            color="#000"
+          />
+        </TouchableOpacity>
+      </View>

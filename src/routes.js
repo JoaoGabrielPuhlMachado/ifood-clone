@@ -11,6 +11,10 @@ import Perfil from "./screens/Perfil";
 import Login from "./screens/Login/index.js";
 import Registro from "./screens/Registro/index.js";
 import Usuario from "./screens/Usuario/index.js";
+import Desc from "./screens/Desc/index.js";
+import Categoria from "./screens/Categoria/index.js";
+import Marca from "./screens/Marca/index.js";
+import Resultado from "./screens/Resultado/index.js";
 
 import { useRecoilValue } from "recoil";
 import { authState } from "./recoil/atoms/auth.js";
@@ -70,6 +74,38 @@ export default function Main({}) {
             name="Perfil"
             component={Perfil}
             options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Desc"
+            component={Desc}
+            options={{
+              headerShown: true,
+              title: "Descrição do Produto",
+            }}
+          />
+          <Stack.Screen
+            name="Categoria"
+            component={Categoria}
+            options={{
+              headerShown: true,
+              title: "Categorias",
+            }}
+          />
+          <Stack.Screen
+            name="Marca"
+            component={Marca}
+            options={{
+              headerShown: true,
+              title: "Marcas",
+            }}
+          />
+          <Stack.Screen
+            name="Resultado"
+            component={Resultado}
+            options={{
+              headerShown: true,
+              title: "Resultado",
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

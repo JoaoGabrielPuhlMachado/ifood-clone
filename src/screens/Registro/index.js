@@ -16,10 +16,11 @@ import {
   View,
 } from "react-native";
 import api from "../../services/api.js";
-import { authState } from "../../recoil/atoms/auth.js";
+import { authState, useAuth } from "../../recoil/atoms/auth.js";
 
 export default function Registro({ navigation }) {
-  const setUser = useSetRecoilState(authState);
+  const { setToken } = useAuth();
+  const setAuth = useSetRecoilState(authState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
@@ -43,11 +44,23 @@ export default function Registro({ navigation }) {
   };
 
   const registro = async () => {
+    if (
+      !first_name ||
+      !last_name ||
+      !email ||
+      !telefone ||
+      !cpf ||
+      !password ||
+      !confirmpassword
+    ) {
+      setErrorMsg("Preencha todos os campos.");
+      return;
+    }
+
     if (password !== confirmpassword) {
       setErrorMsg("As senhas devem ser iguais.");
       return;
     }
-
     try {
       await usuariosApi.adicionarUsuario({
         email: email,
@@ -57,20 +70,30 @@ export default function Registro({ navigation }) {
         telefone: telefone,
         cpf: cpf,
         data_nascimento: data_nascimento.toISOString().split("T")[0],
-        tipo_usuario: 1,
+        tipo_usuario: 2,
       });
       const { data } = await api.post("token/custom/", {
         email: email,
         password: password,
       });
-      setUser({
-        loggedIn: true,
+      await setToken(data.access);
+      setAuth({
+        isLogged: true,
         token: data.access,
         refresh: data.refresh,
+        userID: data.user.id,
+        tipoUsuario: data.user.tipo_usuario,
       });
       await SecureStore.setItemAsync("access", data.access);
+      navigation.navigate("Home");
     } catch (error) {
-      setUser({ loggedIn: false, access: null, refresh: null });
+      setAuth({
+        isLogged: false,
+        token: null,
+        refresh: null,
+        userID: null,
+        tipoUsuario: null,
+      });
       setErrorMsg("Informe todos os campos!");
       await SecureStore.deleteItemAsync("access");
     }
