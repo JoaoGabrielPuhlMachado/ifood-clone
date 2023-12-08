@@ -10,6 +10,7 @@ export const authState = atom({
     refresh: "",
     userID: "",
     tipoUsuario: "",
+    groups: "",
   },
 });
 
@@ -20,15 +21,16 @@ export function useAuth() {
       await AsyncStorage.setItem("token", token);
 
       const decodedToken = jwt_decode(token);
-
       if (decodedToken) {
         const { user_id } = decodedToken;
         const { tipo_usuario } = decodedToken;
+        const { groups } = decodedToken;
         setAuth({
           token,
           isLogged: true,
           userID: user_id,
           tipoUsuario: tipo_usuario,
+          Groups: groups,
         });
       } else {
         console.error("Erro ao decodificar o token.");

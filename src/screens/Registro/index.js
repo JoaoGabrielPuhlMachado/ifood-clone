@@ -71,6 +71,7 @@ export default function Registro({ navigation }) {
         cpf: cpf,
         data_nascimento: data_nascimento.toISOString().split("T")[0],
         tipo_usuario: 2,
+        groups: 2,
       });
       const { data } = await api.post("token/custom/", {
         email: email,
@@ -83,6 +84,7 @@ export default function Registro({ navigation }) {
         refresh: data.refresh,
         userID: data.user.id,
         tipoUsuario: data.user.tipo_usuario,
+        Groups: data.user.groups,
       });
       await SecureStore.setItemAsync("access", data.access);
       navigation.navigate("Home");
@@ -93,6 +95,7 @@ export default function Registro({ navigation }) {
         refresh: null,
         userID: null,
         tipoUsuario: null,
+        groups: null,
       });
       setErrorMsg("Informe todos os campos!");
       await SecureStore.deleteItemAsync("access");

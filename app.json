@@ -21,6 +21,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.ligiaroupas"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "86dabe70-72bb-4e2b-be80-d15f74d923ec"
       }
     }
   }
